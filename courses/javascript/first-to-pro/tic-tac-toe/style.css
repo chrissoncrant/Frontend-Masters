@@ -68,7 +68,7 @@ header {
 .board {
     max-width: 50%;
     min-width: 300px;
-    margin: 1em auto;
+    margin: 1.3em auto;
     background-color:darkgreen;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -77,7 +77,7 @@ header {
 }
 
 .tile {
-    min-height: 1.3em;
+    min-height: 1em;
     background-color: white;
     font-size: 5rem;
     text-align: center;
