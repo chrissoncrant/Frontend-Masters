@@ -1,0 +1,81 @@
+*,
+*::before,
+*::after {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    line-height: 1.6;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    padding: 24px;
+}
+
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+input, 
+button, 
+textarea, 
+select {
+    font: inherit;
+}
+
+ol, ul {
+    list-style: none;
+    padding: 0;
+}
+
+h1, 
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    overflow-wrap: break-word;
+    max-width: 65ch;
+}
+
+a {
+    display: block;
+    text-decoration: none;
+}
+
+p a {
+    display: inline;
+    text-decoration: underline;
+}
+
+.flow > * + * {
+    margin-top: 1em;
+}
+
+.wrapper {
+    width: 600px;
+    /* border: solid; */
+    margin-inline: auto;
+}
+
+.question {
+    padding: 48px 36px;
+    box-shadow: 2px 2px 8px gray;
+    border-radius: 10px;
+}
+
+main button {
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    padding-block: 8px;
+}
