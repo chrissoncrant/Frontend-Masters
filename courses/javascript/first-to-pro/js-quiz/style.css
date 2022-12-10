@@ -70,33 +70,28 @@ p a {
     margin-inline: auto;
 }
 
-.question {
-    padding: 48px 36px;
-    box-shadow: 2px 2px 8px gray;
-    border-radius: 10px;
-    text-align: center;
-    font-size: calc(20rem / 16)
+#statement {
+    border: 2px solid;
+    border-radius: 8px;
+    padding: 12px 8px;
+    box-shadow: 5px 5px black;
 }
 
-.options {
-    width: 400px;
-    margin-inline: auto;
-    --flow-space: 1.5rem;
-}
-
-.options button {
+#options button {
     display: block;
-    width: 100%;
-    border: none;
-    border-radius: 10px;
+    width: 50%;
+    margin-inline: auto;
     cursor: pointer;
+    border: none;
     padding-block: 8px;
+    border-radius: 8px;
+    background-color: hsl(0 2% 80%);
 }
 
-.options button:hover {
+#options button:hover {
     opacity: 0.8;
 }
 
-.next {
-    background-color: deeppink;
+#options button:active {
+    background-color: hsl(0 2% 50%);
 }

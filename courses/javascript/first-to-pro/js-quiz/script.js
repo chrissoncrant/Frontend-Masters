@@ -17,56 +17,34 @@ const score = {
     incorrect: 0
 };
 
-const questionDiv = document.querySelector(".question");
+//Below is from the video assignment.
+const fact = {
+    statement: "Numbers are a primitive data type.",
+    answer: true,
+    explanation: "There are 7 primitive data types in JavaScript. Numbers are one of these types."
+};
 
-const optionsDiv = document.querySelector(".options");
+const statement = document.getElementById('statement');
 
-let questionNumber = 0;
+statement.textContent = fact.statement;
 
-function loadQuestion(questionNumber) {
-    const currentQuestion = questions[questionNumber];
+const optionsButtons = document.querySelectorAll("#options button");
 
-    questionDiv.textContent = currentQuestion.question;
+const explanation = document.querySelector("#explanation");
 
-    const answers = currentQuestion.options;
 
-    buttonClickCount = 0;
-    
-    answers.forEach(answer => {
-        const button = document.createElement('button');
-        button.textContent = answer;
-        button.addEventListener('click', () => {
-            if (button.textContent === currentQuestion.correct) {
-                button.style.backgroundColor = 'var(--correct)';
-                buttonClickCount === 0 && showNextQuestionButton();
-                buttonClickCount++;
-            } else {
-                button.style.backgroundColor = 'var(--incorrect)';
-            }
-        })
-        optionsDiv.appendChild(button);
-    })
+function disable(button) {
+    button.setAttribute('disabled', '');
 }
 
-function showNextQuestionButton() {
-    const nextBtn = document.createElement('button');
-    nextBtn.textContent = "Next >"
-    nextBtn.classList.add('next');
-    optionsDiv.appendChild(nextBtn);
-
-    let options = optionsDiv.children;
-    
-    nextBtn.addEventListener('click', () => {
-
-        while (options.length > 0) {
-            let child = options[0];
-            optionsDiv.removeChild(child);
-        }
-
-        questionNumber++;
-        
-        loadQuestion(questionNumber);
-    })
+function enable(button) {
+    button.removeAttribute('disabled');
 }
 
-loadQuestion(0);
+function isCorrect(guess) {
+    return guess === fact.answer.toString();
+}
+
+optionsButtons.forEach(button => button.addEventListener('click', (e) => {
+    console.log(isCorrect(e.target.value))
+}));
