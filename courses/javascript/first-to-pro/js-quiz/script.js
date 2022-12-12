@@ -42,9 +42,32 @@ function enable(button) {
 }
 
 function isCorrect(guess) {
-    return guess === fact.answer.toString();
+    return guess === fact.answer.toString() ? "Correct!" : "Wrong...";
 }
 
+//This variable needs to be globally scoped; it is a state variable. State variable are generally going to be globally scoped. 
+let capitalizeToggle = 1;
+
 optionsButtons.forEach(button => button.addEventListener('click', (e) => {
+    if (e.target === optionsButtons[0]) {
+        if (capitalizeToggle) {
+            e.target.textContent = e.target.textContent[0].toUpperCase() + e.target.textContent.slice(1);
+            capitalizeToggle--;
+        } else {
+            e.target.textContent = e.target.textContent[0].toLowerCase() + e.target.textContent.slice(1);
+            capitalizeToggle++;
+        }
+    }
     console.log(isCorrect(e.target.value))
 }));
+
+const h1 = document.querySelector('h1');
+
+h1.addEventListener('mouseenter', () => {
+    h1.textContent = 'hovering';
+    console.log('yo')
+})
+
+h1.addEventListener('mouseout', () => {
+    h1.textContent = 'Quiz.js';
+})
