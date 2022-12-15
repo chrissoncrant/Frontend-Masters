@@ -95,3 +95,11 @@ p a {
 #options button:active {
     background-color: hsl(0 2% 50%);
 }
+
+#options .correct {
+    background-color: hsl(110deg 30% 50%);
+}
+
+#options .incorrect {
+    background-color: hsl(0deg 50% 50%);
+}
