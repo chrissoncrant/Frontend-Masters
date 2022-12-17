@@ -62,3 +62,7 @@ p a {
 .flow > * + * {
     margin-top: 1em;
 }
+
+#image-frame img {
+    margin-inline: auto;
+}
