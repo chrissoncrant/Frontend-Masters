@@ -90,3 +90,11 @@ h1.addEventListener('mouseenter', () => {
 h1.addEventListener('mouseout', () => {
     h1.textContent = 'Quiz.js';
 })
+
+let a = [`1, 2`, 'hello', 1, 2];
+
+let b = [...a];
+
+a.push('yo')
+
+console.log(...b)

@@ -97,9 +97,9 @@ p a {
 }
 
 #options .correct {
-    background-color: hsl(110deg 30% 50%);
+    background-color: hsl(75 58% 65%);
 }
 
 #options .incorrect {
-    background-color: hsl(0deg 50% 50%);
+    background-color: hsl(0 80% 63%);
 }
