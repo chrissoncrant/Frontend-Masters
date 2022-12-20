@@ -70,3 +70,14 @@ p a {
 #image-frame img {
     margin-inline: auto;
 }
+
+.optionButton {
+    display: block;
+    margin-inline: auto;
+    font-size: 2rem;
+    padding-inline: 24px;
+    padding-block: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
