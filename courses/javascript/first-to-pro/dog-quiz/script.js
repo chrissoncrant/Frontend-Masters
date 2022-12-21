@@ -2,7 +2,14 @@ const imageFrame= document.querySelector('#image-frame');
 
 const RANDOM_IMG_ENDPOINT = "https://dog.ceo/api/breeds/image/random";
 
-const image = fetch(RANDOM_IMG_ENDPOINT);
+async function fetchDogImageURL(url) {
+    const response = await fetch(url);
+
+    const responseObject = await response.json();
+
+    return responseObject.message;
+}
+
 
 function getBreedFromURL(url) {
     const breedStartIndex = url.indexOf('breeds/') + 7;
@@ -36,15 +43,14 @@ function reverseBreedString(string) {
     return `${string[1] + ' ' + string[0]}`;
 }
 
-function setUpImageElement(url, breedSlice) {
+function setUpImageElement(imageURL, altText) {
     const imgElement = document.createElement('img');
 
-    imgElement.setAttribute('src', url);
+    imgElement.setAttribute('src', imageURL);
 
     imageFrame.appendChild(imgElement);
 
-    imgElement.setAttribute('alt', breedSlice);
-
+    imgElement.setAttribute('alt', altText);
 }
 
 function setUpOptions(optionsArray, correctAnswer) {
@@ -123,10 +129,7 @@ function checkForRepeat(array) {
 async function getDog() {   
     
     try {
-        let dogImage = await image;
-        dogImage = await dogImage.json();
-
-        let dogURL = dogImage.message;
+        const dogURL = await fetchDogImageURL(RANDOM_IMG_ENDPOINT);
 
         let breedSlice = getBreedFromURL(dogURL);
 

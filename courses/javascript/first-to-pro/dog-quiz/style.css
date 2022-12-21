@@ -60,11 +60,12 @@ p a {
 }
 
 .flow > * + * {
-    margin-top: 1em;
+    margin-top: var(--flow-space, 1em);
 }
 
 #image-frame {
-    border: solid; 
+    border: solid;
+    border-radius: 5px;
 }
 
 #image-frame img {
@@ -76,12 +77,15 @@ p a {
 }
 
 .optionButton {
+    --flow-space: 0.6em;
     display: block;
     margin-inline: auto;
-    font-size: 2rem;
+    font-size: 1.5rem;
     padding-inline: 24px;
     padding-block: 8px;
-    border: none;
+    border: solid black;
     border-radius: 5px;
     cursor: pointer;
+    background-color: hsl(0, 57%,40%);
+    color: white;
 }
