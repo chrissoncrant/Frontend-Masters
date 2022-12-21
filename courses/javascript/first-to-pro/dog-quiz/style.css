@@ -71,6 +71,10 @@ p a {
     margin-inline: auto;
 }
 
+#options {
+    padding-bottom: 32px;
+}
+
 .optionButton {
     display: block;
     margin-inline: auto;

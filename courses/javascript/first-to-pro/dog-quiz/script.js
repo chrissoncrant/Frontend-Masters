@@ -18,18 +18,15 @@ let testURL = 'https://images.dog.ceo/breeds/pinscher-miniature/n02107312_4234.j
 function parseURL(url) {
     let parsedURL = url.split('/');
 
-    let breedIndex = parsedURL.findIndex(item => item === 'breeds') + 1;
-
-    let breed = parsedURL[breedIndex];
+    let [, , , , breed] = parsedURL;
 
     if (breed.includes('-')) {
         breed = breed.split('-');
-        console.log(breed);
 
         [breed[1], breed[0]] = [breed[0], breed[1]];
+
         breed = breed.join(' ');
     }
-    console.log(breed);
 
     return breed;
 }
@@ -57,14 +54,22 @@ function setUpOptions(optionsArray, correctAnswer) {
         const optionButton = document.createElement('button');
         optionButton.classList.add('optionButton');
         optionButton.value = optionsArray[i];
+
+        //TODO: Capitalize the name
         optionButton.textContent = optionsArray[i];
         optionButton.setAttribute('type', 'button');
 
         optionButton.addEventListener('click', () => {
             if (optionButton.value === correctAnswer) {
-                console.log('correct')
+                console.log('correct');
+                //TODO: add correct class for styling.
+                //TODO: disable all buttons
+                //TODO: add Next Button
+
             } else {
                 console.log('wrong');
+                //TODO: add incorrect class
+                //TODO: disabled the button
             }
         })
 
@@ -115,34 +120,68 @@ function checkForRepeat(array) {
     return newArray;
 }
 
-image
-    .then(response => response.json())
-    .then(responseObj => {
-        const url = responseObj.message;
-        console.log(url);
+async function getDog() {   
+    
+    try {
+        let dogImage = await image;
+        dogImage = await dogImage.json();
 
-        let breedSlice = getBreedFromURL(url);
+        let dogURL = dogImage.message;
+
+        let breedSlice = getBreedFromURL(dogURL);
+
+        // console.log(breedSlice);
 
         if (breedSlice.includes('-')) {
             breedSlice = reverseBreedString(breedSlice);
         }
 
-        setUpImageElement(url, breedSlice);
+        setUpImageElement(dogURL, breedSlice);
 
         const optionsArray = getMultipleChoices(4, breedSlice, BREEDS);
-        //store breed slice as correct answer
-        //get more options
-        //add the options as buttons to select
 
-        console.log(breedSlice);
+        // console.log(breedSlice);
 
-        console.log(BREEDS.filter(breed => breed.includes(breedSlice)));
+        // console.log(BREEDS.filter(breed => breed.includes(breedSlice)));
 
-        console.log(optionsArray);
+        // console.log(optionsArray);
 
         setUpOptions(optionsArray, breedSlice);
 
-    })
+    } catch (error) {
+        console.error('Error!', error);
+    }
+
+}
+
+getDog()
+
+//Using Promise and .then() syntax
+// image
+//     .then(response => response.json())
+//     .then(responseObj => {
+//         const url = responseObj.message;
+//         console.log(url);
+
+//         let breedSlice = getBreedFromURL(url);
+
+//         if (breedSlice.includes('-')) {
+//             breedSlice = reverseBreedString(breedSlice);
+//         }
+
+//         setUpImageElement(url, breedSlice);
+
+//         const optionsArray = getMultipleChoices(4, breedSlice, BREEDS);
+
+//         console.log(breedSlice);
+
+//         console.log(BREEDS.filter(breed => breed.includes(breedSlice)));
+
+//         console.log(optionsArray);
+
+//         setUpOptions(optionsArray, breedSlice);
+
+//     })
 
 
 const BREEDS = ["affenpinscher", "african", "airedale", "akita", "appenzeller", "shepherd australian", "basenji", "beagle", "bluetick", "borzoi", "bouvier", "boxer", "brabancon", "briard", "norwegian buhund", "boston bulldog", "english bulldog", "french bulldog", "staffordshire bullterrier", "australian cattledog", "chihuahua", "chow", "clumber", "cockapoo", "border collie", "coonhound", "cardigan corgi", "cotondetulear", "dachshund", "dalmatian", "great dane", "scottish deerhound", "dhole", "dingo", "doberman", "norwegian elkhound", "entlebucher", "eskimo", "lapphund finnish", "bichon frise", "german shepherd", "italian greyhound", "groenendael", "havanese", "afghan hound", "basset hound", "blood hound", "english hound", "ibizan hound", "plott hound", "walker hound", "husky", "keeshond", "kelpie", "komondor", "kuvasz", "labradoodle", "labrador", "leonberg", "lhasa", "malamute", "malinois", "maltese", "bull mastiff", "english mastiff", "tibetan mastiff", "mexicanhairless", "mix", "bernese mountain", "swiss mountain", "newfoundland", "otterhound", "caucasian ovcharka", "papillon", "pekinese", "pembroke", "miniature pinscher", "pitbull", "german pointer", "german longhair pointer", "pomeranian", "medium poodle", "miniature poodle", "standard poodle", "toy poodle", "pug", "puggle", "pyrenees", "redbone", "chesapeake retriever", "curly retriever", "flatcoated retriever", "golden retriever", "rhodesian ridgeback", "rottweiler", "saluki", "samoyed", "schipperke", "giant schnauzer", "miniature schnauzer", "english setter", "gordon setter", "irish setter", "sharpei", "english sheepdog", "shetland sheepdog", "shiba", "shihtzu", "blenheim spaniel", "brittany spaniel", "cocker spaniel", "irish spaniel", "japanese spaniel", "sussex spaniel", "welsh spaniel", "english springer", "stbernard", "american terrier", "australian terrier", "bedlington terrier", "border terrier", "cairn terrier", "dandie terrier", "fox terrier", "irish terrier", "kerryblue terrier", "lakeland terrier", "norfolk terrier", "norwich terrier", "patterdale terrier", "russell terrier", "scottish terrier", "sealyham terrier", "silky terrier", "tibetan terrier", "toy terrier", "welsh terrier", "westhighland terrier", "wheaten terrier", "yorkshire terrier", "tervuren", "vizsla", "spanish waterdog", "weimaraner", "whippet", "irish wolfhound"];
