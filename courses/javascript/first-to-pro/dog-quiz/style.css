@@ -64,12 +64,15 @@ p a {
 }
 
 #image-frame {
-    border: solid;
     border-radius: 5px;
+    text-align: center;
+    font-size: 2rem;
+    overflow: hidden;
 }
 
 #image-frame img {
     margin-inline: auto;
+    border-radius: 5px;
 }
 
 #options {
@@ -83,9 +86,31 @@ p a {
     font-size: 1.5rem;
     padding-inline: 24px;
     padding-block: 8px;
-    border: solid black;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: hsl(0, 57%,40%);
+    background-color: hsl(19, 100%,27%);
     color: white;
+}
+
+.optionButton:active {
+    opacity: 0.8;
+}
+
+.optionButton:active:disabled {
+    opacity: 1;
+}
+
+.correct {
+    background-color: green;
+    box-shadow: 0px 0px 10px 5px lightgreen;
+}
+
+.incorrect {
+    background-color: hsl(3, 75%, 65%);
+    box-shadow: 0px 0px 10px 5px hsl(0, 73%, 85%);
+}
+
+.optionButton.nextButton {
+    background-color: rgb(18, 16, 53);
 }

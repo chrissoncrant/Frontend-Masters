@@ -2,6 +2,8 @@ const imageFrame= document.querySelector('#image-frame');
 
 const RANDOM_IMG_ENDPOINT = "https://dog.ceo/api/breeds/image/random";
 
+let guessCount = 0;
+
 async function fetchDogImageURL(url) {
     const response = await fetch(url);
 
@@ -10,16 +12,23 @@ async function fetchDogImageURL(url) {
     return responseObject.message;
 }
 
-
 function getBreedFromURL(url) {
     const breedStartIndex = url.indexOf('breeds/') + 7;
 
     let breedSlice = url.slice(breedStartIndex);
 
-    return breedSlice.slice(0, breedSlice.indexOf('/'));
+    breedSlice = breedSlice.slice(0, breedSlice.indexOf('/'));
+
+    if (breedSlice.includes('-')) {
+        breedSlice = reverseBreedString(breedSlice);
+    }
+
+    return breedSlice;
 }
 
 let testURL = 'https://images.dog.ceo/breeds/pinscher-miniature/n02107312_4234.jpg';
+
+// console.log(getBreedFromURL(testURL))
 
 //Another way of parsing the URL for the breed
 function parseURL(url) {
@@ -46,6 +55,8 @@ function reverseBreedString(string) {
 function setUpImageElement(imageURL, altText) {
     const imgElement = document.createElement('img');
 
+    imgElement.setAttribute('id', 'dog-image');
+
     imgElement.setAttribute('src', imageURL);
 
     imageFrame.appendChild(imgElement);
@@ -53,29 +64,67 @@ function setUpImageElement(imageURL, altText) {
     imgElement.setAttribute('alt', altText);
 }
 
+function disable(button) {
+    button.setAttribute('disabled', '');
+}
+
+function addNextButton(parent) {
+    const nextButton = document.createElement('button');
+
+    nextButton.classList.add('nextButton');
+
+    nextButton.classList.add('optionButton');
+
+    nextButton.setAttribute('type', 'button');
+
+    nextButton.textContent = 'Next -->'
+
+    parent.appendChild(nextButton);
+
+    nextButton.addEventListener('click', () => {
+        location.reload();
+    })
+}
+
 function setUpOptions(optionsArray, correctAnswer) {
     const optionsContainer = document.querySelector('#options');
 
     for (let i = 0; i < optionsArray.length; i++) {
         const optionButton = document.createElement('button');
+
         optionButton.classList.add('optionButton');
+
         optionButton.value = optionsArray[i];
 
-        //TODO: Capitalize the name
-        optionButton.textContent = optionsArray[i];
+        optionButton.name = optionsArray[i];
+
+        optionButton.textContent = capitalize(optionsArray[i]);
+
         optionButton.setAttribute('type', 'button');
 
         optionButton.addEventListener('click', () => {
             if (optionButton.value === correctAnswer) {
-                console.log('correct');
-                //TODO: add correct class for styling.
-                //TODO: disable all buttons
-                //TODO: add Next Button
+                optionButton.classList.add('correct');
 
+                addNextButton(optionsContainer);
             } else {
-                console.log('wrong');
-                //TODO: add incorrect class
-                //TODO: disabled the button
+                optionButton.classList.add('incorrect');
+
+                optionButton.setAttribute('disabled', '');
+
+                guessCount++;
+
+                if (guessCount === 3) {
+                    const buttons = document.querySelectorAll('.optionButton');
+
+                    for (let button of buttons) {
+                        if (button.value === correctAnswer) {
+                            button.classList.add('correct');
+
+                            addNextButton(optionsContainer);
+                        }
+                    }
+                }
             }
         })
 
@@ -126,38 +175,52 @@ function checkForRepeat(array) {
     return newArray;
 }
 
-async function getDog() {   
-    
+function capitalize(string) {
+    const stringArray = string.split(' ');
+
+    const capitalizedArr = stringArray.map(word => {
+        const firstLetter = word[0].toUpperCase();
+
+        const restOfWord = word.slice(1);
+
+        return firstLetter + restOfWord;
+    });
+
+    return capitalizedArr.join(' ').trim();
+}
+
+async function renderQuiz() {   
     try {
+        imageFrame.textContent = 'Fetching Dog...';
+        
         const dogURL = await fetchDogImageURL(RANDOM_IMG_ENDPOINT);
 
         let breedSlice = getBreedFromURL(dogURL);
 
         // console.log(breedSlice);
 
-        if (breedSlice.includes('-')) {
-            breedSlice = reverseBreedString(breedSlice);
-        }
-
         setUpImageElement(dogURL, breedSlice);
 
+        const dogImageElement = document.querySelector('#dog-image');
+
         const optionsArray = getMultipleChoices(4, breedSlice, BREEDS);
+
+        dogImageElement.addEventListener('load', () => {
+            setUpOptions(optionsArray, breedSlice);
+            imageFrame.replaceChildren(dogImageElement);
+        })
 
         // console.log(breedSlice);
 
         // console.log(BREEDS.filter(breed => breed.includes(breedSlice)));
 
         // console.log(optionsArray);
-
-        setUpOptions(optionsArray, breedSlice);
-
     } catch (error) {
         console.error('Error!', error);
     }
-
 }
 
-getDog()
+renderQuiz()
 
 //Using Promise and .then() syntax
 // image

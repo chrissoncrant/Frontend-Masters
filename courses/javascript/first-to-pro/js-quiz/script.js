@@ -32,7 +32,6 @@ const optionsButtons = document.querySelectorAll("#options button");
 
 const explanation = document.querySelector("#explanation");
 
-
 function disable(button) {
     button.setAttribute('disabled', '');
 }
