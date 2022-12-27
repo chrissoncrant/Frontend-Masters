@@ -58,18 +58,48 @@ function copyArrayAndAdd3(array) {
 
 const array4 = copyArrayAndAdd3(array1);
 
-console.log(array4);
+// console.log(array4);
+
 //The Higher-Order Function:
-function copyAndProcess(array, fn) {
+function copyArrayAndProcess(array, processor, processBy) {
     const output = [];
 
     for (let i = 0; i < array.length; i++) {
-        output.push(fn(array[i]));
+        output.push(processor(array[i], processBy));
     }
 
     return output
 }
 
+//Higher Order Functions take in functions as arguments. Here are the lower order functions the above funciton will use. 
+
+function multiply(multiplicand, multiplier) {
+    const product = multiplicand * multiplier;
+
+    return product
+}
+
+function divide(dividend, divisor) {
+    let quotient = dividend / divisor;
+
+    return quotient
+}
+
+const arrowDivide = (dividend, divisor) => dividend / divisor;
+
+function add(addend1, addend2) {
+    let sum = addend1 + addend2;
+
+    return sum
+}
+
+function subtract(minuend, subtrahend) {
+    let difference = minuend - subtrahend;
+
+    return difference
+}
+
+// console.log(copyArrayAndProcess(array1, divide, 5));
 
 //**************************************
 //**************************************
