@@ -1,7 +1,52 @@
 //Section 3: Closure Challenges
 // http://csbin.io/closures
 
+//Creating a closure "factory". 
+function addBy(amount) {
+    function amountToBeAddedTo(input) {        
+        return input + amount;
+    }
 
+    return amountToBeAddedTo;
+}
+
+
+//Creating a specific instance of the above closure; it has an input parameter and it will add 5 to the argument passed into it. 
+const addBy5 = addBy(5);
+
+addBy5(10); //15
+
+//Creating another instance of the above closure
+const addBy10 = addBy(10);
+
+addBy10(25) //35
+
+//Challenge 4
+
+//Creating a closure "factory".
+function once(func) {
+    let count = 0;
+
+    let value;
+    
+    return (arg) => {
+        if (count === 0) {
+            value = func(arg);
+            count++;
+            return value;
+        } else {
+            return value;
+        }
+    };
+}
+
+//This is conditioning the addBy5 function to only be run once.
+const onceByFive = once(addBy5);
+
+console.log(onceByFive);
+
+console.log(onceByFive(5));
+console.log(onceByFive(25));
 
 //Section 2: 
 function outer() {
@@ -16,9 +61,9 @@ function outer() {
     // console.log(counter);
 }
 
-outer();
-outer();
-outer();
+outer(); //1
+outer(); //1
+outer(); //1
 
 //No matter how many times outer is called, the counter variable will only ever reach 1. This is because with each call the counter variable is created and set to 0. 
 
@@ -33,6 +78,7 @@ function outerWithClosure() {
     //     // console.log(counter);
     // }
 
+    //Note that we can also simply return the anonymous function and it works the same as returning 'incrementCounter'
     return () => {
         counter++;
 
@@ -42,24 +88,24 @@ function outerWithClosure() {
 
 const incrementCounter = outerWithClosure();
 
-incrementCounter();
-incrementCounter();
-incrementCounter();
+incrementCounter(); //1
+incrementCounter(); //2
+incrementCounter(); //3
 //Now, with the above, we have a counter that will increment and persist the counter variable's data as it changes. Note that the counter variable is not globally accessible.
 
 
 //Below is a new instance of the same closure above. This does not interfere with the first instance. It starts fresh, it gets a new backpack.
 const incrementCounter2 = outerWithClosure();
 
-incrementCounter2();
-incrementCounter2();
-incrementCounter2();
+incrementCounter2(); //1
+incrementCounter2(); //2
+incrementCounter2(); //3
 
 //Below is connecting the identifier incrementCounter3 with the value (which is a closure) that is connected to incrementCounter. In this case calling incrementCounter3 will update the counter variable that was already updated by calling incrementCounter previousely.
 const incrementCounter3 = incrementCounter;
 
-incrementCounter3();
-incrementCounter3();
+incrementCounter3(); //4
+incrementCounter3(); //5
 
 
 //What we are doing below is showing that the running/calling of a function doesn't determine the access to variables, but rather it is the environment within which the funciton is defined that matters.
@@ -88,7 +134,7 @@ function createFunction() {
     function multiplyBy2(num) {
         console.log(`Call count: ${count}`);
 
-        let test = 'This is a test'
+        let test = 'This is a test';
         
         count++;
 
