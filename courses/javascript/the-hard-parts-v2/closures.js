@@ -1,5 +1,8 @@
 //Section 3: Closure Challenges
 // http://csbin.io/closures
+// solutions: https://github.com/CodesmithLLC/cs-bin-solutions/blob/master/closures.js
+
+//Challenge 3
 
 //Creating a closure "factory". 
 function addBy(amount) {
@@ -21,18 +24,63 @@ const addBy10 = addBy(10);
 
 addBy10(25) //35
 
+// #################################################################
+
 //Challenge 4
 
-//Creating a closure "factory".
-function once(func) {
+//Creating a closure "factory" that takes in a callback and conditions it, returning a closure that is similar to the argument callback in terms of the returned value and the number of parameters.
+
+function moreSpecificOnce(func) {
+    let count = 0;
+
+    let value;
+
+    //Notice that the defined parameter 'arg' is setting up and limiting the returned closure to be able to only accept one argument when an instace is called.
+    return (arg) => {
+        if (count === 0) {
+            
+            value = func(arg);
+
+            count++; 
+
+            return value;
+
+        } else {
+            return value;
+        }
+    };
+}
+
+function generalizedOnce(func) {
     let count = 0;
 
     let value;
     
-    return (arg) => {
+    //The identifier that will store the parameters
+    let params;
+
+    //Storing the original callback function
+    let originalFunc = func;
+
+    func = function() {
+        //This line of code is being added to the callback via the apply() method below. It is grabbing the arguments and creating an Array of them, then assigning this array to the params identifier. 
+        params = arguments;
+
+        //I don't quite understand what is going on here...
+        return originalFunc.apply(null, params);
+    }
+
+    //spreading the array of arguments
+    return (...params) => {
         if (count === 0) {
-            value = func(arg);
-            count++;
+
+            //storing the value of the callback when it is called with all its arguments
+            value = func(...params);
+            
+            count++; 
+
+            console.log(value)
+
             return value;
         } else {
             return value;
@@ -40,13 +88,34 @@ function once(func) {
     };
 }
 
+function add3Numbers(x, y, z) {
+    return x + y + z;
+}
+
+function add5Numbers(a, b, c, d, e) {
+    return a + b + c + d + e;
+}
+
+const addOnce = generalizedOnce(add3Numbers);
+
+console.log(addOnce)
+
+addOnce(5, 16, 8); //29
+addOnce(5, 6, 9); //29
+
+const anotherAddOnce = generalizedOnce(add5Numbers);
+
+anotherAddOnce(2, 4, 5, 6, 1); //18
+anotherAddOnce(2, 4, 5, 6, 1); //18
+
 //This is conditioning the addBy5 function to only be run once.
-const onceByFive = once(addBy5);
+const onceByFive = moreSpecificOnce(addBy5);
 
-console.log(onceByFive);
+onceByFive(5); //10
+onceByFive(25); //10
 
-console.log(onceByFive(5));
-console.log(onceByFive(25));
+// #################################################################
+// #################################################################
 
 //Section 2: 
 function outer() {
