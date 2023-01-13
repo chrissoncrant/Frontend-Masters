@@ -55,32 +55,15 @@ function generalizedOnce(func) {
     let count = 0;
 
     let value;
-    
-    //The identifier that will store the parameters
-    let params;
-
-    //Storing the original callback function
-    let originalFunc = func;
-
-    func = function() {
-        //This line of code is being added to the callback via the apply() method below. It is grabbing the arguments and creating an Array of them, then assigning this array to the params identifier. 
-        params = arguments;
-
-        //I don't quite understand what is going on here...
-        return originalFunc.apply(null, params);
-    }
 
     //spreading the array of arguments
     return (...params) => {
         if (count === 0) {
 
-            //storing the value of the callback when it is called with all its arguments
             value = func(...params);
+
+            count++;
             
-            count++; 
-
-            console.log(value)
-
             return value;
         } else {
             return value;
@@ -97,8 +80,6 @@ function add5Numbers(a, b, c, d, e) {
 }
 
 const addOnce = generalizedOnce(add3Numbers);
-
-console.log(addOnce)
 
 addOnce(5, 16, 8); //29
 addOnce(5, 6, 9); //29
