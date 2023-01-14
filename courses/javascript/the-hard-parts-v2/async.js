@@ -1,41 +1,10 @@
 //Practice Problems:
 //http://csbin.io/async
 //solutions: https://github.com/CodesmithLLC/cs-bin-solutions/blob/master/async.js
-function limitedRepeat() {
-    const intervalId = setInterval(() => console.log('hello'), 1000);
-
-    setTimeout(() => clearInterval(intervalId), 5000);
+function log() {
+    console.log('message');
 }
 
-// limitedRepeat();
-
-function callback(cb) {
-    let count = 0;
-
-    let firstReturn;
-    
-    return (...args) => {
-        if (count === 0) {
-            count++;
-            firstReturn = cb(...args);
-            return firstReturn;
-        } else return firstReturn;
-    }
-}
-
-function add2(x, y) {
-    return x + y;
-}
-
-function add3(x, y, z) {
-    return x + y + z;
-}
-
-const test1 = callback(add2);
-
-const test2 = callback(add3);
-
-console.log(test1(1, 2, 5))
 
 //Section 2:
 function printHello() {
