@@ -115,13 +115,15 @@ user7.score = 5;
 
 // console.log(user7);
 // user7.increment();
-console.log(user7);
 
 //Using this concept we can create a more effective userCreator2 Factory by also using an as the prototype for all the objects created within the factory.
+
 function userCreator2(name, score) {
+    //This ties the storedUserFunctions object as a prototype to the newly created object
     const newUser = Object.create(storedUserFunctions);
 
     newUser.name = name;
+
     newUser.score = score;
 
     return newUser;
@@ -141,8 +143,27 @@ const user8 = userCreator2('Will', 20);
 
 const user9 = userCreator2('Lily', 12);
 
-user8.increment();
-console.log(user8);
+// user8.increment();
 
-user9.increment();
-console.log(user9);
+// user9.increment();
+
+// user8.login();
+
+// console.log(user8.hasOwnProperty('increment'));
+// console.log(user8.valueOf());
+
+// console.log(user8.__proto__) //storedUserFunctions
+// console.log(user8.__proto__.__proto__) //Object
+// console.log(user8.__proto__.__proto__.__proto__) //null
+
+storedUserFunctions.increment2 = function() {    
+    function incrementer() {
+        this.score++;
+        console.log(this);
+        console.log(this.score);
+    }
+
+    incrementer.call(this)
+}
+
+console.log(user9.increment2())
