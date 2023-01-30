@@ -156,14 +156,117 @@ const user9 = userCreator2('Lily', 12);
 // console.log(user8.__proto__.__proto__) //Object
 // console.log(user8.__proto__.__proto__.__proto__) //null
 
+
+// Example of 'this' keyword for functions
 storedUserFunctions.increment2 = function() {    
     function incrementer() {
+        //In this situation 'this' will refer to Window due to where the function will be defined when the parent function is called.
         this.score++;
         console.log(this);
         console.log(this.score);
     }
 
-    incrementer.call(this)
+    //.call calls the incrementer function and attaches the parent object to the 'this' keyword in incrementer function's execution context.
+    incrementer.call(this);
 }
 
-console.log(user9.increment2())
+// user9.increment2();
+
+storedUserFunctions.increment3 = function() {    
+    const add1 = () => {
+        //In this situation 'this' will refer to the parent object. Special bonus feature of arrow functions.
+        this.score++;
+        console.log(this);
+        console.log(this.score);
+    }
+
+    //No need for .call is in above.
+    add1();
+}
+
+// user9.increment3();
+
+// ###############################
+// ###############################
+// Functions are Objects:
+
+function multiplyBy2(num) {
+    return num * 2;
+}
+
+//Adding a property and method value to the object of the function.
+multiplyBy2.stored = 5;
+
+multiplyBy2.printHello = function() {
+    console.log(this, 'Hello')
+};
+
+multiplyBy2.prototype.sayHi = function() {console.log('Hi hi hiiii!')};
+
+// This shows all the properties and methods of the object connected to the function, both those in the object itself, and the method stored in the object assigned to the 'prototype' property of the object connected to the function value:
+// console.log(multiplyBy2.prototype)
+
+// ###############################
+// ###############################
+// 'New' Keyword:
+
+function userCreator3(name, score) {
+    //The commented things are what the 'new' keyword replaces:
+
+    // const newUser = Object.create(storedUserFunctions);
+    // newUser.name = name;
+    // newUser.score = score;
+    // return newUser;
+
+    //All the above replaced by this:
+    this.name = name;
+    this.score = score;
+};
+
+//Adding functions to the object assigned to the 'prototype' property of the automatically generated object, which will become the prototype (like the storedUserFunctions object above) of the object returned by using 'new' keyword:
+
+userCreator3.prototype = {
+    increment () {
+        this.score++;
+    },
+    sayHi() {
+        console.log('Hi there' + this.name);
+    }
+}
+
+//This is a method assigned on the automatically generated object, not on the 'prototype' object. The 'prototype' object is a property of the automatically generated object. 
+userCreator3.goAway = function() {
+    console.log('Go away!');
+}
+
+// console.log(userCreator3.prototype);
+
+const user10 = new userCreator3('Tom', 10);
+
+user10.increment();
+
+// console.log(userCreator3.prototype);
+
+
+// ###############################
+// ###############################
+// Classes
+
+class UserCreator {
+    constructor(name, score) {
+        this.name = name;
+        this.score = score;
+    };
+
+    //Now able to add metheds to the prototype object
+    increment() {
+        this.score++;
+        console.log('New Score', score);
+    };
+
+    sayHi() { console.log('Hi there.') };
+}
+
+const user11 = new UserCreator('Linda', 7);
+
+// console.log(user11.sayHi());
